@@ -1,0 +1,15 @@
+node_modules/
+client/node_modules/
+.env
+*.env
+dist/
+client/dist/
+server/uploads/*
+!server/uploads/.gitkeep
+.DS_Store
+*.log
+npm-debug.log*
+.cache/
+
+# Local data store (dev)
+data/*.json
