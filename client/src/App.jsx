@@ -15,6 +15,7 @@ import Tutor from "./pages/Tutor";
 import StudyPlan from "./pages/StudyPlan";
 import Profile from "./pages/Profile";
 import Leaderboard from "./pages/Leaderboard";
+import OAuthCallback from "./pages/OAuthCallback";
 
 function PrivateRoute({ children }) {
   const { user, loading } = useAuth();
@@ -38,7 +39,7 @@ export default function App() {
     <AuthProvider>
       <BrowserRouter>
         <InstallPWA />
-      <Toaster
+        <Toaster
           position="top-right"
           toastOptions={{
             style: { background: "var(--bg-card)", color: "var(--text-primary)", border: "1px solid var(--border)", fontFamily: "var(--font)", fontSize: "0.875rem" },
@@ -51,6 +52,7 @@ export default function App() {
           <Route path="/login" element={<PublicRoute><Auth mode="login" /></PublicRoute>} />
           <Route path="/register" element={<PublicRoute><Auth mode="register" /></PublicRoute>} />
           <Route path="/quiz/join/:code?" element={<QuizGame />} />
+          <Route path="/oauth/callback" element={<OAuthCallback />} />
           <Route element={<PrivateRoute><Layout /></PrivateRoute>}>
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/notes" element={<Notes />} />
