@@ -13,7 +13,10 @@ export function AuthProvider({ children }) {
       api.defaults.headers.common["Authorization"] = `Bearer ${token}`;
       api.get("/auth/me")
         .then(r => setUser(r.data))
-        .catch(() => { localStorage.removeItem("sm_token"); delete api.defaults.headers.common["Authorization"]; })
+        .catch(() => {
+          localStorage.removeItem("sm_token");
+          delete api.defaults.headers.common["Authorization"];
+        })
         .finally(() => setLoading(false));
     } else {
       setLoading(false);
@@ -42,12 +45,22 @@ export function AuthProvider({ children }) {
     setUser(null);
   }, []);
 
+  const refreshUser = useCallback(async () => {
+    try {
+      const { data } = await api.get("/auth/me");
+      setUser(data);
+      return data;
+    } catch {
+      return null;
+    }
+  }, []);
+
   const updateUser = useCallback((updates) => {
     setUser(prev => ({ ...prev, ...updates }));
   }, []);
 
   return (
-    <AuthContext.Provider value={{ user, loading, login, register, logout, updateUser }}>
+    <AuthContext.Provider value={{ user, loading, login, register, logout, updateUser, refreshUser }}>
       {children}
     </AuthContext.Provider>
   );
